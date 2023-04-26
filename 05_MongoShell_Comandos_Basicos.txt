@@ -1,3 +1,13 @@
+//Top Intelligence Academy
+//Acesse:https://www.youtube.com/@Top.Intelligence
+//Github:https://github.com/TopIntelligence/Banco_Dados_NoSQL_com_MongoDB
+//Insta: https://www.instagram.com/top.intelligence/
+
+//https://www.mongodb.com/try/download/shell
+//https://www.mongodb.com/products/shell
+//https://www.mongodb.com/blog/post/introducing-the-new-shell
+//https://www.youtube.com/watch?v=gtpQWyDg-uo
+
 // Executar o MongoDB shell (linhas de comando do MongoDB)
 mongosh
 
