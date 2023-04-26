@@ -1,0 +1,107 @@
+// Executar o MongoDB shell (linhas de comando do MongoDB)
+mongosh
+
+	// Mostrar alguns comandos que podem ser executados para o MongoDB
+	help
+
+	//Mostrar databases
+	show dbs
+
+	//Métodos do database
+	db.help()
+
+	// Mudar para o banco de dados mymongo - caso não exista ele cria o database após inserção de documentos
+	// Banco  de dados orientado à documento. Não tem create database igual ao relacional
+	use mymongo
+
+	//Mostra o database corrente
+	db
+
+	//Mostrar databases -- mymongo ainda não listado, pois não possui nenhuma coleção
+	show dbs
+
+	// Não tem create table e definição de tipos das colunas - Não é SGBD relacional
+	// Criar um documento e armazená-lo em uma nova coleção chamada "colors"
+	db.colors.insertOne({name:"red",value:"FF0000"})
+	
+	// Agora o banco já está criado, pois possui uma coleção
+
+	// Verificar se o documento foi armazenado
+	db.colors.find()
+	
+	//Identificador único - ID criado automaticamente - índice interno para o banco de dados
+	// Adicionar um novo documento para a coleção colors
+	db.colors.insertOne({name:"white",value:"FFFFFF"})
+	
+	// Adicionar um novo documento idêntico para a coleção colors - irá inserir?
+	db.colors.insertOne({name:"red",value:"FF0000"})
+	
+	// Verificar os documentos da coleção colors
+	db.colors.find()
+	
+	// Obter um conjunto de valores com atributo name de forma exclusiva da coleção colors -- saída em array
+	db.colors.distinct("name")
+
+	// Criará 26 documentos, um para cada letra minúscula do alfabeto, cada documento contendo o caractere em si e seu código de caractere ASCII
+	// https://www.treinaweb.com.br/blog/uma-introducao-a-ascii-e-unicode
+
+	var chars = "abcdefghijklmnopqrstuvwxyz"
+	for(var i =0; i < chars.length; i++) {
+		var char = chars.substr(i, 1)
+		var doc = {char:char, code: char.charCodeAt(0)}
+		db.alphabet.insertOne(doc)
+	}
+	// Obs.: Para comprovar se a identificação do decimal correspondente aos caracteres minúsculos estão corretos, abrir uma nova janela terminal e executar o comando man ascii. 
+
+	// Recuperando os dados da coleção alphabet (se necessário digitar it para continuar a ver os valores restantes)	
+	db.alphabet.find()
+	
+	// Recuperando todos os dados da coleção alphabet de uma só vez	
+	db.alphabet.find().forEach(printjson)
+	
+	// Recuperação com filtro char="o"	
+	db.alphabet.find({char: "o"})
+	
+	// Recuperação com filtro code <= 100	
+	// lte = Less than or equal (menor que ou igual)
+	// gte - Greater than or equal (maior que ou igual)
+	db.alphabet.find({code:{$lte:100}})
+	
+	//Igual a 100
+	db.alphabet.find({code:{$eq:100}}) 
+	
+	// Recuperação com filtro code = 102 ou code = 103 ou code = 104 ou code = 105 indicando todos atributos	
+	db.alphabet.find({code:{$in:[102,103,104,105]}}) # Todos os campos
+
+	// Recuperação com filtro code = 102 ou code = 103 ou code = 104 ou code = 105 e indicando o atributo char	
+	db.alphabet.find({code:{$in:[102,103,104,105]}}, {char: 1}) # Indica char, mas retorna id que é padrão
+
+	//Não retornar o _ID e retornar o char
+	db.alphabet.find({code:{$in:[102,103,104,105]}}, {"_id":0, char: 1}) #ID = false, retorna apenas char
+	
+	// Criar um índice para o atributo code da coleção alphabet -- valor 1 indica índice crescente	
+	db.alphabet.createIndex({code: 1})
+	
+	// Criar um índice para o atributo char da coleção alphabet 	
+	db.alphabet.ensureIndex({char: 1}) # Será descontinuado
+	
+	// Retornar os cinco primeiros documentos da coleção alphabet	
+	db.alphabet.find().limit(5)
+	
+	// Pular os 5 primeiros documentos e retornar os 10 próximos documentos da coleção alphabet	
+	db.alphabet.find().skip(5).limit(10)
+	
+	// Quantos documentos existem na coleção alphabet	
+	db.alphabet.find().count()
+
+	//limpar terminal
+	cls
+
+	// Verificar o database corrente		
+	db 						 
+	
+	// Mostrar as coleções deste database	
+	show collections					 
+
+	// Sair do mongo shell	
+	exit						 
